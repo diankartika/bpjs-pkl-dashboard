@@ -9,20 +9,24 @@ export default function Home() {
       </Head>
 
       {/* Header Section */}
-      <div className="relative bg-cover bg-center h-[430px]" style={{ backgroundImage: 'url(/bg-hero.png)' }}>
+      <div className="relative bg-cover bg-center h-[450px]" style={{ backgroundImage: 'url(/bg-hero.png)' }}>
         <div className="absolute top-6 right-6 flex gap-2">
           <button className="bg-green-600 text-white px-4 py-2 rounded">Login Admin</button>
           <button className="bg-green-600 text-white px-4 py-2 rounded">Login Mitra</button>
         </div>
-        <div className="text-left text-black py-20 px-4 md:px-20">
-          <h1 className="text-[40px] font-bold uppercase">Pendaftaran BPJS Ketenagakerjaan</h1>
-          <p className="text-[32px] font-bold">Siswa Praktik Kerja Lapangan/Magang</p>
-          <p className="text-sm mt-2 text-blue-200 italic">Jaminan Sosial Ketenagakerjaan bagi Siswa Magang dan Praktik Kerja Lapangan</p>
+      <div className="text-left text-black pt-32 pb-20 px-4 md:px-20">
+          <h1 className="text-[40px] font-extrabold uppercase">Pendaftaran BPJS Ketenagakerjaan</h1>
+          <p className="text-[32px] font-extrabold uppercase">Siswa Praktik Kerja Lapangan/Magang</p>
+          <p className="text-[20px] font-extrabold italic">
+            <span className="text-[#015623]">Jaminan Sosial Ketenagakerjaan </span>
+            <span className="text-[#0348C3]">bagi Siswa Magang</span>
+          </p>
+          <p className="text-[20px] font-extrabold text-[#0348C3] italic">dan Praktik Kerja Lapangan</p>
         </div>
       </div>
 
       {/* Main Form Section */}
-      <div className="flex flex-col md:flex-row px-4 md:px-20 mt-10 gap-6">
+      <div className="flex flex-col md:flex-row px-4 md:px-20 -mt-20 z-10 relative gap-2 md:gap-0">
         {/* Side Panel */}
         <div className="bg-green-100 rounded-lg p-6 md:w-1/3 shadow">
           <h2 className="text-lg font-bold mb-2">Pendaftaran Peserta BPJS Praktik Kerja Lapangan/Magang</h2>
