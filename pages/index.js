@@ -10,11 +10,20 @@ export default function Home() {
 
       {/* Header Section */}
       <div className="relative bg-cover bg-center h-[450px]" style={{ backgroundImage: 'url(/bg-hero.png)' }}>
+        {/* Logo kiri atas */}
+        <div className="absolute top-6 left-6 flex items-center gap-0.5">
+          <img src="/dikpora.png" alt="dikpora" className="h-16" />
+          <img src="/kemnaker.png" alt="kemnaker" className="h-14" />
+          <img src="/bpjamsostek.png" alt="bpjamsostek" className="h-12" />
+        </div>
+
+
+        {/* Tombol kanan atas */}
         <div className="absolute top-6 right-6 flex gap-2">
           <button className="bg-green-600 text-white px-4 py-2 rounded">Login Admin</button>
           <button className="bg-green-600 text-white px-4 py-2 rounded">Login Mitra</button>
         </div>
-      <div className="text-left text-black pt-32 pb-20 px-4 md:px-20">
+        <div className="text-left text-black pt-32 pb-20 px-4 md:px-20">
           <h1 className="text-[40px] font-extrabold uppercase">Pendaftaran BPJS Ketenagakerjaan</h1>
           <p className="text-[32px] font-extrabold uppercase">Siswa Praktik Kerja Lapangan/Magang</p>
           <p className="text-[20px] font-extrabold italic">
