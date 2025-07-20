@@ -1,5 +1,6 @@
 // pages/index.js
 import Head from 'next/head'
+import BPJSInfoPage from '../components/BPJSInfoPage'
 
 export default function Home() {
   return (
@@ -89,6 +90,9 @@ export default function Home() {
           </form>
         </div>
       </div>
+
+      {/* Tambahan Informasi BPJS */}
+      <BPJSInfoPage />
     </div>
   )
 }
