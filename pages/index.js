@@ -60,13 +60,14 @@ export default function Home() {
         {/* Tombol kanan atas */}
         <div className="absolute top-6 right-6 flex gap-2">
           <button
-            onClick={() => router.push('/admin')}
+            onClick={() => router.push('/login?role=admin')}
             className="bg-green-600 text-white px-4 py-2 rounded"
           >
             Login Admin
           </button>
+
           <button
-            onClick={() => router.push('/mitra')}
+            onClick={() => router.push('/login?role=mitra')}
             className="bg-green-600 text-white px-4 py-2 rounded"
           >
             Login Mitra
