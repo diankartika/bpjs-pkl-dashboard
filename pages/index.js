@@ -26,6 +26,20 @@ export default function Home() {
     setujuBPJS: false
   });
 
+  // Calculate total cost based on duration
+  const calculateTotalCost = (duration) => {
+    if (!duration) return 0;
+    return parseInt(duration) * 16800;
+  };
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0
+    }).format(amount);
+  };
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -140,7 +154,11 @@ export default function Home() {
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-600 mb-1">Biaya Total</label>
-                  <input disabled className="w-full border px-4 py-2 rounded bg-green-100 text-gray-500" placeholder="Otomatis" />
+                  <input 
+                    disabled 
+                    className="w-full border px-4 py-2 rounded bg-green-100 text-gray-700 font-semibold" 
+                    value={formData.durasiMagang ? formatCurrency(calculateTotalCost(formData.durasiMagang)) : 'Pilih durasi magang'} 
+                  />
                 </div>
               </div>
             </div>
@@ -189,9 +207,11 @@ export default function Home() {
               <label className="text-gray-700">Setuju akan pendaftaran BPJS Ketenagakerjaan</label>
             </div>
 
-            <button type="submit" className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg transition-colors font-medium">
-              Kirim
-            </button>
+            <div className="flex justify-end">
+              <button type="submit" className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg transition-colors font-medium">
+                Kirim
+              </button>
+            </div>
           </form>
         </div>
       </div>
