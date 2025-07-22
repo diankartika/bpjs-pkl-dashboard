@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Filter, Download, LogOut } from 'lucide-react';
 
 export default function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -52,7 +51,9 @@ export default function AdminDashboard() {
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold text-green-700">Dashboard Admin</h1>
         <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors">
-          <LogOut size={20} />
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
           Keluar
         </button>
       </div>
@@ -67,7 +68,9 @@ export default function AdminDashboard() {
         </div>
         <div className="bg-green-100 rounded-lg p-6">
           <button className="text-lg font-semibold text-gray-700 hover:text-gray-900 transition-colors flex items-center gap-3">
-            <Download size={24} className="text-green-600" />
+            <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
             <span>Export<br />data</span>
           </button>
         </div>
@@ -76,7 +79,9 @@ export default function AdminDashboard() {
       {/* Controls */}
       <div className="flex gap-4 mb-6">
         <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors">
-          <Filter size={20} />
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+          </svg>
           Filter
         </button>
         <div className="flex-1">
@@ -127,7 +132,9 @@ export default function AdminDashboard() {
       {/* Pagination */}
       <div className="flex justify-between items-center">
         <button className="bg-gray-100 hover:bg-gray-200 p-3 rounded-lg transition-colors">
-          <ChevronLeft size={20} className="text-gray-600" />
+          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
         </button>
         
         <div className="flex items-center gap-4">
@@ -141,8 +148,10 @@ export default function AdminDashboard() {
         </div>
         
         <button className="bg-gray-100 hover:bg-gray-200 p-3 rounded-lg transition-colors">
-          <ChevronRight size={20} className="text-gray-600" />
-        </button>
+          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+          </button>
       </div>
     </div>
   );
