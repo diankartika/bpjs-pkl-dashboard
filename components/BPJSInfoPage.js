@@ -5,7 +5,7 @@ export default function BPJSInfoPage() {
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
       <div className="bg-white shadow-sm">
-        <div className="max-w-4xl mx-auto px-6 py-8">
+        <div className="px-4 md:px-20 py-8">
           <h1 className="text-2xl font-bold text-gray-800 text-center mb-8">
             INFORMASI TAMBAHAN
           </h1>
