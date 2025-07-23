@@ -2,61 +2,46 @@ import { useState } from 'react';
 
 export default function DashboardMitra() {
   const [searchTerm, setSearchTerm] = useState('');
-  
-  const participants = [
-    {
-      id: 1,
-      name: 'Andre Budiman',
-      school: 'SMKN 1 Mlati',
-      phone: '081234567890',
-      email: 'andrebudiman@gmail.com',
-      major: 'Desain Komunikasi Visual'
-    },
-    {
-      id: 2,
-      name: 'Andre Budiman',
-      school: 'SMKN 1 Mlati',
-      phone: '081234567890',
-      email: 'andrebudiman@gmail.com',
-      major: 'Desain Komunikasi Visual'
-    },
-    {
-      id: 3,
-      name: 'Andre Budiman',
-      school: 'SMKN 1 Mlati',
-      phone: '081234567890',
-      email: 'andrebudiman@gmail.com',
-      major: 'Desain Komunikasi Visual'
-    },
-    {
-      id: 4,
-      name: 'Andre Budiman',
-      school: 'SMKN 1 Mlati',
-      phone: '081234567890',
-      email: 'andrebudiman@gmail.com',
-      major: 'Desain Komunikasi Visual'
-    },
-    {
-      id: 5,
-      name: 'Andre Budiman',
-      school: 'SMKN 1 Mlati',
-      phone: '081234567890',
-      email: 'andrebudiman@gmail.com',
-      major: 'Desain Komunikasi Visual'
-    },
-    {
-      id: 6,
-      name: 'Andre Budiman',
-      school: 'SMKN 1 Mlati',
-      phone: '081234567890',
-      email: 'andrebudiman@gmail.com',
-      major: 'Desain Komunikasi Visual'
+  const [participants, setParticipants] = useState([
+  ]);
+
+  useEffect(() => {
+    const fetchParticipants = async () => {
+      try {
+        const res = await fetch('http://localhost:5050/api/participants');
+        const data = await res.json();
+        setParticipants(data);
+      } catch (err) {
+        console.error('Fetch error:', err);
+      }
+    };
+
+    fetchParticipants();
+  }, []);
+
+  const handleUpload = async (e, id) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const res = await fetch('http://localhost:5050/api/upload/image', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      setParticipants((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, photo: data.url } : p))
+      );
+    } catch (err) {
+      console.error('Upload error:', err);
     }
-  ];
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-4xl font-bold text-gray-800">Dashboard Mitra</h1>
         <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
@@ -65,7 +50,6 @@ export default function DashboardMitra() {
         </button>
       </div>
 
-      {/* Filter and Search */}
       <div className="flex items-center gap-4 mb-6">
         <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -84,7 +68,6 @@ export default function DashboardMitra() {
         </div>
       </div>
 
-      {/* Table */}
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         <table className="w-full">
           <thead className="bg-gray-50 border-b border-gray-200">
@@ -95,6 +78,7 @@ export default function DashboardMitra() {
               <th className="text-left py-4 px-6 text-gray-600 font-medium">No. HP</th>
               <th className="text-left py-4 px-6 text-gray-600 font-medium">Email</th>
               <th className="text-left py-4 px-6 text-gray-600 font-medium">Jurusan</th>
+              <th className="text-left py-4 px-6 text-gray-600 font-medium">Foto</th>
             </tr>
           </thead>
           <tbody>
@@ -110,20 +94,31 @@ export default function DashboardMitra() {
                   </a>
                 </td>
                 <td className="py-4 px-6 text-gray-600 text-center">{participant.major}</td>
+                <td className="py-4 px-6">
+                  {participant.photo ? (
+                    <img src={participant.photo} alt="Foto Peserta" className="w-16 h-16 object-cover rounded-full" />
+                  ) : (
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleUpload(e, participant.id)}
+                      className="text-sm"
+                    />
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      {/* Pagination */}
       <div className="flex items-center justify-between mt-6">
         <button className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-800 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15,18 9,12 15,6"></polyline>
           </svg>
         </button>
-        
+
         <div className="flex items-center gap-4">
           <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors">
             Sebelumnya

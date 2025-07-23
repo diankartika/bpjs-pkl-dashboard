@@ -147,8 +147,13 @@ export default function Home() {
                   <label className="block text-sm font-semibold text-gray-600 mb-1">Durasi Magang</label>
                   <select name="durasiMagang" value={formData.durasiMagang} onChange={handleInputChange} className="w-full border px-4 py-2 rounded">
                     <option value="">Pilih Durasi</option>
+                    <option value="2">1 Bulan</option>
                     <option value="2">2 Bulan</option>
+                    <option value="4">3 Bulan</option>
                     <option value="4">4 Bulan</option>
+                    <option value="4">5 Bulan</option>
+                    <option value="4">6 Bulan</option>
+                    <option value="4">7 Bulan</option>
                     <option value="8">8 Bulan</option>
                   </select>
                 </div>

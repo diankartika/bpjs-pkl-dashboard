@@ -30,7 +30,7 @@ export default function BPJSInfoPage() {
           </div>
 
           {/* Manfaat */}
-          <div className="mb-8">
+          <div className="mb-4">
             <h2 className="text-2xl font-bold text-gray-800 text-center mb-8">
               MANFAAT
             </h2>
@@ -47,25 +47,25 @@ export default function BPJSInfoPage() {
       </div>
 
       {/* Image and Price Section — Full Width */}
-      <div className="relative bg-white w-full overflow-hidden">
-        <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center h-full">
+      <div className="relative bg-white w-full overflow-hidden -mt-100">
+        <div className="relative z-10 grid md:grid-cols-2 gap-0 items-center h-full">
           {/* Left side - Students image */}
-          <div className="flex justify-center md:justify-start">
+          <div className="flex justify-center md:justify-start translate-y-[-5px]">            
             <img 
               src="/siswa.png" 
               alt="Students" 
-              className="w-82 h-50 object-contain"
+              className="w-70 h-[650px] object-contain"
             />
           </div>
 
           {/* Right side - Price information */}
-          <div className="text-center md:text-right md:ml-auto">
+          <div className="text-center md:text-right md:ml-auto md:pr-24">
             <p className="text-blue-700 font-medium mb-3 text-lg">
               Iuran per bulan mulai dari
             </p>
             <div className="mb-4">
               <span className="text-blue-700 text-3xl font-bold">Rp </span>
-              <span className="text-blue-700 text-6xl font-bold">16.800</span>
+              <span className="text-blue-700 text-8xl font-bold">16.800</span>
             </div>
             <div className="text-blue-700 font-semibold space-y-1">
               <p className="text-lg">JAMINAN KECELAKAAN KERJA</p>
