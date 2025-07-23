@@ -45,4 +45,14 @@ router.post('/', upload.fields([
   }
 });
 
+router.get('/', async (req, res) => {
+  try {
+    const participants = await Participant.find();
+    res.json(participants);
+  } catch (err) {
+    res.status(500).json({ error: 'Gagal mengambil data peserta' });
+  }
+});
+
+
 module.exports = router;
