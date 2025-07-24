@@ -1,48 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
-  
-  // Sample data - in real app this would come from API
-  const registrationData = [
-    {
-      id: 1,
-      name: "Andre Budiman",
-      school: "SMKN 1 Mlati",
-      phone: "081234567890",
-      email: "andrebudiman@gmail.com",
-      major: "Desain Komunikasi Visual"
-    },
-    {
-      id: 2,
-      name: "Andre Budiman",
-      school: "SMKN 1 Mlati",
-      phone: "081234567890",
-      email: "andrebudiman@gmail.com",
-      major: "Desain Komunikasi Visual"
-    },
-    {
-      id: 3,
-      name: "Andre Budiman",
-      school: "SMKN 1 Mlati",
-      phone: "081234567890",
-      email: "andrebudiman@gmail.com",
-      major: "Desain Komunikasi Visual"
-    },
-    {
-      id: 4,
-      name: "Andre Budiman",
-      school: "SMKN 1 Mlati",
-      phone: "081234567890",
-      email: "andrebudiman@gmail.com",
-      major: "Desain Komunikasi Visual"
-    }
-  ];
+  const [participants, setParticipants] = useState([]);
 
-  const filteredData = registrationData.filter(item =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.school.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.email.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch('http://localhost:5050/api/participants');
+        const data = await res.json();
+        setParticipants(data);
+      } catch (err) {
+        console.error('Failed to fetch participants:', err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const filteredData = participants.filter(item =>
+    item.namaLengkap?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.namaSekolah?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -111,17 +90,17 @@ export default function AdminDashboard() {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {filteredData.map((item, index) => (
-                <tr key={item.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 text-gray-900 font-medium">{item.id}</td>
-                  <td className="px-6 py-4 text-gray-900 font-medium">{item.name}</td>
-                  <td className="px-6 py-4 text-gray-700">{item.school}</td>
-                  <td className="px-6 py-4 text-gray-700">{item.phone}</td>
+                <tr key={item._id} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-6 py-4 text-gray-900 font-medium">{index + 1}</td>
+                  <td className="px-6 py-4 text-gray-900 font-medium">{item.namaLengkap}</td>
+                  <td className="px-6 py-4 text-gray-700">{item.namaSekolah}</td>
+                  <td className="px-6 py-4 text-gray-700">{item.nomorHP}</td>
                   <td className="px-6 py-4">
                     <a href={`mailto:${item.email}`} className="text-gray-700 hover:text-green-600 underline transition-colors">
                       {item.email}
                     </a>
                   </td>
-                  <td className="px-6 py-4 text-gray-700 text-center">{item.major}</td>
+                  <td className="px-6 py-4 text-gray-700 text-center">{item.jurusan}</td>
                 </tr>
               ))}
             </tbody>

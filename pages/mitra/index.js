@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function DashboardMitra() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -83,27 +83,22 @@ export default function DashboardMitra() {
           </thead>
           <tbody>
             {participants.map((participant, index) => (
-              <tr key={participant.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                <td className="py-4 px-6 text-gray-800">{participant.id}</td>
-                <td className="py-4 px-6 text-gray-800 font-medium">{participant.name}</td>
-                <td className="py-4 px-6 text-gray-600">{participant.school}</td>
-                <td className="py-4 px-6 text-gray-600">{participant.phone}</td>
+              <tr key={participant._id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                <td className="py-4 px-6 text-gray-800">{index + 1}</td>
+                <td className="py-4 px-6 text-gray-800 font-medium">{participant.namaLengkap}</td>
+                <td className="py-4 px-6 text-gray-600">{participant.namaSekolah}</td>
+                <td className="py-4 px-6 text-gray-600">{participant.nomorHP}</td>
                 <td className="py-4 px-6">
                   <a href={`mailto:${participant.email}`} className="text-blue-600 hover:text-blue-800 underline">
                     {participant.email}
                   </a>
                 </td>
-                <td className="py-4 px-6 text-gray-600 text-center">{participant.major}</td>
+                <td className="py-4 px-6 text-gray-600 text-center">{participant.jurusan}</td>
                 <td className="py-4 px-6">
-                  {participant.photo ? (
-                    <img src={participant.photo} alt="Foto Peserta" className="w-16 h-16 object-cover rounded-full" />
+                  {participant.fotoSelfieUrl ? (
+                    <img src={participant.fotoSelfieUrl} alt="Foto Peserta" className="w-16 h-16 object-cover rounded-full" />
                   ) : (
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleUpload(e, participant.id)}
-                      className="text-sm"
-                    />
+                    <span className="text-gray-400 italic">Belum ada</span>
                   )}
                 </td>
               </tr>
