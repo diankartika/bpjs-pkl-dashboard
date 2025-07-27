@@ -174,7 +174,13 @@ const paginatedData = filteredData.slice(
 
       {/* Pagination */}
       <div className="flex justify-between items-center">
-        <button className="bg-gray-100 hover:bg-gray-200 p-3 rounded-lg transition-colors">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className={`bg-gray-100 hover:bg-gray-200 p-3 rounded-lg transition-colors ${
+            currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+        >
           <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
@@ -202,11 +208,17 @@ const paginatedData = filteredData.slice(
           </button>
         </div>
         
-        <button className="bg-gray-100 hover:bg-gray-200 p-3 rounded-lg transition-colors">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className={`bg-gray-100 hover:bg-gray-200 p-3 rounded-lg transition-colors ${
+            currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+        >
           <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
-          </button>
+        </button>
       </div>
     </div>
   );
