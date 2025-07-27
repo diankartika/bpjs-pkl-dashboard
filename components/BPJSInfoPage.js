@@ -59,18 +59,28 @@ export default function BPJSInfoPage() {
           </div>
 
           {/* Right side - Price information */}
-          <div className="text-center md:text-right md:ml-auto md:pr-24">
-            <p className="text-blue-700 font-medium mb-3 text-lg">
-              Iuran per bulan mulai dari
-            </p>
-            <div className="mb-4">
-              <span className="text-blue-700 text-3xl font-bold">Rp </span>
-              <span className="text-blue-700 text-8xl font-bold">16.800</span>
-            </div>
-            <div className="text-blue-700 font-semibold space-y-1">
-              <p className="text-lg">JAMINAN KECELAKAAN KERJA</p>
-              <p className="text-lg">JAMINAN KEMATIAN</p>
-              <p className="text-sm text-blue-600 mt-2">/orang/bulan</p>
+          <div className="relative text-center md:text-right md:ml-auto md:pr-24">
+            {/* Gradient Background Image */}
+            <img
+              src="/gradient.png"
+              alt="gradient background"
+              className="absolute -top-[300px] right-0 w-[2000px] h-[800px] opacity-100 pointer-events-none z-0"
+            />
+
+            {/* Content */}
+            <div className="relative z-10">
+              <p className="text-blue-700 font-medium mb-3 text-lg">
+                Iuran per bulan mulai dari
+              </p>
+              <div className="mb-4">
+                <span className="text-blue-700 text-3xl font-bold">Rp </span>
+                <span className="text-blue-700 text-8xl font-bold">16.800</span>
+              </div>
+              <div className="text-blue-700 font-semibold space-y-1">
+                <p className="text-lg">JAMINAN KECELAKAAN KERJA</p>
+                <p className="text-lg">JAMINAN KEMATIAN</p>
+                <p className="text-sm text-blue-600 mt-2">/orang/bulan</p>
+              </div>
             </div>
           </div>
         </div>
