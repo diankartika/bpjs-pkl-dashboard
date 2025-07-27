@@ -147,21 +147,25 @@ export default function Home() {
                   <label className="block text-sm font-semibold text-gray-600 mb-1">Durasi Magang</label>
                   <select name="durasiMagang" value={formData.durasiMagang} onChange={handleInputChange} className="w-full border px-4 py-2 rounded">
                     <option value="">Pilih Durasi</option>
-                    <option value="2">1 Bulan</option>
+                    <option value="1">1 Bulan</option>
                     <option value="2">2 Bulan</option>
-                    <option value="4">3 Bulan</option>
+                    <option value="3">3 Bulan</option>
                     <option value="4">4 Bulan</option>
-                    <option value="4">5 Bulan</option>
-                    <option value="4">6 Bulan</option>
-                    <option value="4">7 Bulan</option>
+                    <option value="5">5 Bulan</option>
+                    <option value="6">6 Bulan</option>
+                    <option value="7">7 Bulan</option>
                     <option value="8">8 Bulan</option>
+                    <option value="9">9 Bulan</option>
+                    <option value="10">10 Bulan</option>
+                    <option value="11">11 Bulan</option>
+                    <option value="12">12 Bulan</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-600 mb-1">Biaya Total</label>
                   <input 
                     disabled 
-                    className="w-full border px-4 py-2 rounded bg-green-100 text-gray-700 font-semibold" 
+                    className="w-full border px-4 py-2 rounded bg-green-100 text-gray-500 text-sm font-normal" 
                     value={formData.durasiMagang ? formatCurrency(calculateTotalCost(formData.durasiMagang)) : 'Pilih durasi magang'} 
                   />
                 </div>
