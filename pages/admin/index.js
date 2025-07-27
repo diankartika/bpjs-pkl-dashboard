@@ -5,6 +5,9 @@ export default function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [participants, setParticipants] = useState([]);
   const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,8 +25,8 @@ export default function AdminDashboard() {
 
   const filteredData = participants.filter(item =>
     item.namaLengkap?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.namaSekolah?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.email?.toLowerCase().includes(searchTerm.toLowerCase())
+    item.jurusan?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.namaSekolah?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const exportToCSV = () => {
@@ -71,6 +74,11 @@ export default function AdminDashboard() {
   document.body.removeChild(link);
 };
 
+const totalPages = Math.ceil(filteredData.length / itemsPerPage); // sesuai hasil pencarian. 
+const paginatedData = filteredData.slice(
+  (currentPage - 1) * itemsPerPage,
+  currentPage * itemsPerPage
+);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -90,9 +98,9 @@ export default function AdminDashboard() {
 
       {/* Stats Card */}
       <div className="flex gap-4 mb-8">
-        <div className="bg-green-100 rounded-lg p-6 flex-1">
-          <h2 className="text-lg font-semibold text-gray-700 mb-2">
-            Total<br />Registrasi
+        <div className="bg-green-100 rounded-lg p-6 flex-1 flex items-center justify-between">
+          <h2 className="text-2xl font-semibold text-gray-700">
+            Total Registrasi
           </h2>
           <div className="text-4xl font-bold text-gray-800">{participants.length}</div>
         </div>
@@ -143,9 +151,11 @@ export default function AdminDashboard() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {filteredData.map((item, index) => (
-                <tr key={item._id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 text-gray-900 font-medium">{index + 1}</td>
+              {paginatedData.map((item, index) => (
+                <tr key={item._id}>
+                  <td className="px-6 py-4 text-gray-900 font-medium">
+                    {(currentPage - 1) * itemsPerPage + index + 1}
+                  </td>
                   <td className="px-6 py-4 text-gray-900 font-medium">{item.namaLengkap}</td>
                   <td className="px-6 py-4 text-gray-700">{item.namaSekolah}</td>
                   <td className="px-6 py-4 text-gray-700">{item.nomorHP}</td>
@@ -171,11 +181,23 @@ export default function AdminDashboard() {
         </button>
         
         <div className="flex items-center gap-4">
-          <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors disabled:opacity-50"
+          >
             Sebelumnya
           </button>
-          <span className="text-gray-600 font-medium">Halaman 1 dari 5</span>
-          <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors">
+
+          <span className="text-gray-600 font-medium">
+            Halaman {currentPage} dari {totalPages}
+          </span>
+
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors disabled:opacity-50"
+          >
             Selanjutnya
           </button>
         </div>
