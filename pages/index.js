@@ -63,7 +63,7 @@ export default function Home() {
       </Head>
 
       {/* Header Section */}
-      <div className="relative bg-cover bg-center h-[450px]" style={{ backgroundImage: 'url(/bg-hero.png)' }}>
+      <div className="relative bg-cover bg-center h-[820px]" style={{ backgroundImage: 'url(/bg-hero.png)' }}>
         <div className="absolute top-6 left-6 flex items-center gap-0.5">
           <img src="/dikpora.png" alt="dikpora" className="h-16" />
           <img src="/kemnaker.png" alt="kemnaker" className="h-14" />
@@ -89,7 +89,7 @@ export default function Home() {
       </div>
 
       {/* Main Form Section */}
-      <div className="flex flex-col md:flex-row px-4 md:px-20 -mt-20 z-10 relative gap-8">
+      <div className="flex flex-col md:flex-row px-4 md:px-20 -mt-[480px] z-10 relative gap-0">
         <div className="bg-green-300 rounded-lg p-8 md:w-1/3 shadow-lg">
           <h2 className="text-xl font-bold mb-4 text-gray-800">Pendaftaran Peserta BPJS Praktik Kerja Lapangan/Magang</h2>
           <p className="text-gray-700 leading-relaxed">Silakan isi data peserta (siswa) pada formulir di samping lalu lakukan pembayaran tagihan BPJS</p>
