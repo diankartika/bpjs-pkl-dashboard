@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 export default function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [participants, setParticipants] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,7 +77,10 @@ export default function AdminDashboard() {
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold text-green-700">Dashboard Admin</h1>
-        <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors">
+        <button
+          onClick={() => router.push('/')}
+          className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"
+        >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
