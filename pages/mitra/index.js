@@ -8,10 +8,17 @@ export default function DashboardMitra() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-
+  // Check if mobile
   useEffect(() => {
-    const fetchParticipants = async () => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+      const fetchParticipants = async () => {
+        setLoading(true);
       try {
         const res = await fetch('https://silky-cable-production.up.railway.app/api/participants');
         const data = await res.json();
@@ -21,7 +28,11 @@ export default function DashboardMitra() {
       }
     };
 
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
     fetchParticipants();
+
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const handleUpload = async (e, id) => {
@@ -30,7 +41,7 @@ export default function DashboardMitra() {
     formData.append('image', file);
 
     try {
-      const res = await fetch('http://localhost:5050/api/upload/image', {
+        const res = await fetch('https://silky-cable-production.up.railway.app/api/upload/image', {
         method: 'POST',
         body: formData,
       });
@@ -38,7 +49,7 @@ export default function DashboardMitra() {
       const data = await res.json();
 
       setParticipants((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, photo: data.url } : p))
+        prev.map((p) => (p._id === id ? { ...p, photo: data.url } : p))
       );
     } catch (err) {
       console.error('Upload error:', err);

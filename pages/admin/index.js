@@ -7,20 +7,31 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-
+  // Check if mobile
   useEffect(() => {
-    const fetchData = async () => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+      const fetchParticipants = async () => {
+        setLoading(true);
       try {
         const res = await fetch('https://silky-cable-production.up.railway.app/api/participants');
         const data = await res.json();
         setParticipants(data);
       } catch (err) {
-        console.error('Failed to fetch participants:', err);
+        console.error('Fetch error:', err);
       }
     };
 
-    fetchData();
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    fetchParticipants();
+
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const filteredData = participants.filter(item =>
