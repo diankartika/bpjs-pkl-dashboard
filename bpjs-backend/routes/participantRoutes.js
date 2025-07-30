@@ -15,13 +15,21 @@ router.post('/', upload.fields([
   try {
     const { body, files } = req;
 
-    const fotoKTP = await cloudinary.uploader.upload_stream(
-      { resource_type: 'image' },
-      (error, result) => {
-        if (error) throw error;
-        return result.secure_url;
-      }
-    );
+    const uploadToCloudinary = (fileBuffer, filename) => {
+      return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: 'bpjs-dashboard', public_id: filename },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        );
+        stream.end(fileBuffer);
+      });
+    };
+
+    const fotoKTPResult = await uploadToCloudinary(files.fotoKTP[0].buffer, 'ktp_' + Date.now());
+    const fotoSelfieResult = await uploadToCloudinary(files.fotoSelfie[0].buffer, 'selfie_' + Date.now());
 
     const fotoSelfie = await cloudinary.uploader.upload_stream(
       { resource_type: 'image' },
@@ -31,11 +39,11 @@ router.post('/', upload.fields([
       }
     );
 
-    const newData = new Participant({
-      ...body,
-      fotoKTPUrl: fotoKTP.secure_url,
-      fotoSelfieUrl: fotoSelfie.secure_url
-    });
+  const newData = new Participant({
+    ...body,
+    fotoKTPUrl: fotoKTPResult.secure_url,
+    fotoSelfieUrl: fotoSelfieResult.secure_url,
+  });
 
     await newData.save();
     res.status(201).json(newData);
