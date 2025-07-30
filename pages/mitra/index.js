@@ -6,6 +6,9 @@ export default function DashboardMitra() {
   const [participants, setParticipants] = useState([
   ]);
   const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
 
   useEffect(() => {
     const fetchParticipants = async () => {
@@ -41,6 +44,30 @@ export default function DashboardMitra() {
       console.error('Upload error:', err);
     }
   };
+
+  // 1. Filter berdasarkan pencarian
+  const filteredParticipants = participants.filter((participant) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      participant.namaLengkap?.toLowerCase().includes(term) ||
+      participant.jurusan?.toLowerCase().includes(term) ||
+      participant.namaSekolah?.toLowerCase().includes(term)
+    );
+  });
+
+  // 2. Hitung total halaman
+  const totalPages = Math.ceil(filteredParticipants.length / itemsPerPage);
+
+  // 3. Ambil data sesuai halaman aktif
+  const paginatedParticipants = filteredParticipants.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  // 4. Reset ke halaman 1 kalau search berubah
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -89,9 +116,11 @@ export default function DashboardMitra() {
             </tr>
           </thead>
           <tbody>
-            {participants.map((participant, index) => (
+            {paginatedParticipants.map((participant, index) => (
               <tr key={participant._id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                <td className="py-4 px-6 text-gray-800">{index + 1}</td>
+                <td className="py-4 px-6 text-gray-800">
+                  {(currentPage - 1) * itemsPerPage + index + 1}
+                </td>
                 <td className="py-4 px-6 text-gray-800 font-medium">{participant.namaLengkap}</td>
                 <td className="py-4 px-6 text-gray-600">{participant.namaSekolah}</td>
                 <td className="py-4 px-6 text-gray-600">{participant.nomorHP}</td>
@@ -100,7 +129,7 @@ export default function DashboardMitra() {
                     {participant.email}
                   </a>
                 </td>
-                <td className="py-4 px-6 text-gray-600 text-center">{participant.jurusan}</td>
+                <td className="py-4 px-6 text-gray-600 text-left">{participant.jurusan}</td>
                 <td className="py-4 px-6">
                   {participant.fotoSelfieUrl ? (
                     <img src={participant.fotoSelfieUrl} alt="Foto Peserta" className="w-16 h-16 object-cover rounded-full" />
@@ -115,23 +144,47 @@ export default function DashboardMitra() {
       </div>
 
       <div className="flex items-center justify-between mt-6">
-        <button className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-800 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className={`flex items-center gap-2 px-4 py-2 text-gray-600 bg-white border border-gray-300 rounded-lg transition-colors hover:bg-gray-50 ${
+            currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+        >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15,18 9,12 15,6"></polyline>
           </svg>
         </button>
 
         <div className="flex items-center gap-4">
-          <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className={`bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
             Sebelumnya
           </button>
-          <span className="text-gray-600 font-medium">Halaman 1 dari 5</span>
-          <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors">
+
+          <span className="text-gray-600 font-medium">
+            Halaman {currentPage} dari {totalPages}
+          </span>
+
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className={`bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
             Selanjutnya
           </button>
         </div>
-
-        <button className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-800 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+        
+        <button
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className={`flex items-center gap-2 px-4 py-2 text-gray-600 bg-white border border-gray-300 rounded-lg transition-colors hover:bg-gray-50 ${
+            currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+        >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="9,18 15,12 9,6"></polyline>
           </svg>
