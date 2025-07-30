@@ -57,49 +57,59 @@ export default function Home() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault(); // cegah reload
+  e.preventDefault();
+
+  if (!formData.fotoKTP && !formData.fotoSelfie) {
+    if (!confirm("Kamu belum upload foto. Lanjutkan?")) return;
+  }
 
   const form = new FormData();
   Object.entries(formData).forEach(([key, value]) => {
-    form.append(key, value);
+    if (key === 'fotoKTP' || key === 'fotoSelfie') {
+      form.append(key, value); // file
+    } else {
+      form.append(key, value); // text
+    }
   });
 
   try {
-    const res = await fetch('/api/peserta', {
+    const res = await fetch('http://localhost:5050/api/participants', {
       method: 'POST',
-      body: form,
+      body: form
     });
 
-    if (res.ok) {
-      alert('Data berhasil dikirim!');
-      setFormData({ // reset form kalau perlu
-        nik: '',
-        namaLengkap: '',
-        tanggalLahir: '',
-        nomorHP: '',
-        email: '',
-        kelas: '',
-        jurusan: '',
-        namaSekolah: '',
-        durasiMagang: '',
-        tanggalMulai: '',
-        tanggalSelesai: '',
-        lokasiPKL: '',
-        namaPerusahaan: '',
-        namaIbuKandung: '',
-        fotoKTP: null,
-        fotoSelfie: null,
-        setujuBPJS: false
-      });
-    } else {
-      alert('Gagal mengirim data');
-    }
-  } catch (error) {
-    console.error('Error submit:', error);
-    alert('Terjadi error saat mengirim data');
+    if (!res.ok) throw new Error('Gagal submit');
+
+    const result = await res.json();
+    alert('Pendaftaran berhasil!');
+    console.log('Success:', result);
+
+    // Optional: Reset form
+    setFormData({
+      nik: '',
+      namaLengkap: '',
+      tanggalLahir: '',
+      nomorHP: '',
+      email: '',
+      kelas: '',
+      jurusan: '',
+      namaSekolah: '',
+      durasiMagang: '',
+      tanggalMulai: '',
+      tanggalSelesai: '',
+      lokasiPKL: '',
+      namaPerusahaan: '',
+      namaIbuKandung: '',
+      fotoKTP: null,
+      fotoSelfie: null,
+      setujuBPJS: false
+    });
+
+  } catch (err) {
+    console.error('Error:', err);
+    alert('Terjadi kesalahan saat submit');
   }
 };
-
 
   return (
     <div className="min-h-screen bg-white">

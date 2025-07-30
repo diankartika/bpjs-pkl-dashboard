@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const cloudinary = require('../utils/cloudinary');
+const streamifier = require('streamifier');
 const router = express.Router();
 
 const storage = multer.memoryStorage();
@@ -8,7 +9,9 @@ const upload = multer({ storage });
 
 router.post('/image', upload.single('image'), async (req, res) => {
   try {
-    const buffer = req.file.buffer;
+    if (!req.file || !req.file.buffer) {
+      return res.status(400).json({ error: 'Tidak ada file yang diupload' });
+    }
 
     const uploadFromBuffer = (buffer) => {
       return new Promise((resolve, reject) => {
@@ -19,11 +22,11 @@ router.post('/image', upload.single('image'), async (req, res) => {
             resolve(result);
           }
         );
-        stream.end(buffer);
+        streamifier.createReadStream(buffer).pipe(stream);
       });
     };
 
-    const result = await uploadFromBuffer(buffer);
+    const result = await uploadFromBuffer(req.file.buffer);
     res.status(200).json({ url: result.secure_url });
   } catch (err) {
     console.error('Upload error:', err);

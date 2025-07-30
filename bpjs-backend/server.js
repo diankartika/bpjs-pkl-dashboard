@@ -10,7 +10,16 @@ const app = express();
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+
+// Hanya pakai express.json jika bukan multipart/form-data
+app.use((req, res, next) => {
+  const contentType = req.headers['content-type'] || '';
+  if (contentType.startsWith('multipart/form-data')) {
+    next(); // biarkan multer yang handle
+  } else {
+    express.json()(req, res, next); // proses json biasa
+  }
+});
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
