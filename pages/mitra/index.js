@@ -13,7 +13,7 @@ export default function DashboardMitra() {
   useEffect(() => {
     const fetchParticipants = async () => {
       try {
-        const res = await fetch('http://localhost:5050/api/participants');
+        const res = await fetch('http://silky-cable-production.up.railway.app');
         const data = await res.json();
         setParticipants(data);
       } catch (err) {
