@@ -56,6 +56,51 @@ export default function Home() {
     }));
   };
 
+  const handleSubmit = async (e) => {
+  e.preventDefault(); // cegah reload
+
+  const form = new FormData();
+  Object.entries(formData).forEach(([key, value]) => {
+    form.append(key, value);
+  });
+
+  try {
+    const res = await fetch('/api/peserta', {
+      method: 'POST',
+      body: form,
+    });
+
+    if (res.ok) {
+      alert('Data berhasil dikirim!');
+      setFormData({ // reset form kalau perlu
+        nik: '',
+        namaLengkap: '',
+        tanggalLahir: '',
+        nomorHP: '',
+        email: '',
+        kelas: '',
+        jurusan: '',
+        namaSekolah: '',
+        durasiMagang: '',
+        tanggalMulai: '',
+        tanggalSelesai: '',
+        lokasiPKL: '',
+        namaPerusahaan: '',
+        namaIbuKandung: '',
+        fotoKTP: null,
+        fotoSelfie: null,
+        setujuBPJS: false
+      });
+    } else {
+      alert('Gagal mengirim data');
+    }
+  } catch (error) {
+    console.error('Error submit:', error);
+    alert('Terjadi error saat mengirim data');
+  }
+};
+
+
   return (
     <div className="min-h-screen bg-white">
       <Head>
@@ -95,8 +140,8 @@ export default function Home() {
           <p className="text-gray-700 leading-relaxed">Silakan isi data peserta (siswa) pada formulir di samping lalu lakukan pembayaran tagihan BPJS</p>
         </div>
 
-        <div className="bg-white rounded-lg p-8 shadow-lg flex-1">
-          <form className="space-y-6">
+        <div className="bg-white rounded-lg p-8 shadow-lg flex-1">  
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-600 mb-1">Nomor Induk Kependudukan (NIK)</label>
