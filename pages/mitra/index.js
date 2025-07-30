@@ -3,28 +3,28 @@ import { useRouter } from 'next/router';
 
 export default function DashboardMitra() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [participants, setParticipants] = useState([
-  ]);
+  const [participants, setParticipants] = useState([]);
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Check if mobile
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
-      const fetchParticipants = async () => {
-        setLoading(true);
+    const fetchParticipants = async () => {
+      setLoading(true);
       try {
         const res = await fetch('https://silky-cable-production.up.railway.app/api/participants');
         const data = await res.json();
         setParticipants(data);
       } catch (err) {
         console.error('Fetch error:', err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -41,7 +41,7 @@ export default function DashboardMitra() {
     formData.append('image', file);
 
     try {
-        const res = await fetch('https://silky-cable-production.up.railway.app/api/upload/image', {
+      const res = await fetch('https://silky-cable-production.up.railway.app/api/upload/image', {
         method: 'POST',
         body: formData,
       });
@@ -56,7 +56,6 @@ export default function DashboardMitra() {
     }
   };
 
-  // 1. Filter berdasarkan pencarian
   const filteredParticipants = participants.filter((participant) => {
     const term = searchTerm.toLowerCase();
     return (
@@ -66,24 +65,21 @@ export default function DashboardMitra() {
     );
   });
 
-  // 2. Hitung total halaman
   const totalPages = Math.ceil(filteredParticipants.length / itemsPerPage);
 
-  // 3. Ambil data sesuai halaman aktif
   const paginatedParticipants = filteredParticipants.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  // 4. Reset ke halaman 1 kalau search berubah
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm]);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-4xl font-bold text-gray-800">Dashboard Mitra</h1>
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Dashboard Mitra</h1>
         <button
           onClick={() => router.push('/')}
           className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors"
@@ -95,26 +91,24 @@ export default function DashboardMitra() {
         </button>
       </div>
 
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row items-stretch gap-4 mb-6">
         <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46 22,3"></polygon>
           </svg>
           Filter
         </button>
-        <div className="flex-1">
-          <input
-            type="text"
-            placeholder="Cari data"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-          />
-        </div>
+        <input
+          type="text"
+          placeholder="Cari data"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+        />
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <table className="w-full">
+      <div className="bg-white rounded-lg shadow-sm overflow-x-auto">
+        <table className="w-full min-w-[750px]">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
               <th className="text-left py-4 px-6 text-gray-600 font-medium">No</th>
@@ -154,13 +148,11 @@ export default function DashboardMitra() {
         </table>
       </div>
 
-      <div className="flex items-center justify-between mt-6">
+      <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
-          className={`flex items-center gap-2 px-4 py-2 text-gray-600 bg-white border border-gray-300 rounded-lg transition-colors hover:bg-gray-50 ${
-            currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
-          }`}
+          className="flex items-center gap-2 px-4 py-2 text-gray-600 bg-white border border-gray-300 rounded-lg transition-colors hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15,18 9,12 15,6"></polyline>
@@ -171,7 +163,7 @@ export default function DashboardMitra() {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className={`bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
           >
             Sebelumnya
           </button>
@@ -183,18 +175,16 @@ export default function DashboardMitra() {
           <button
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className={`bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
           >
             Selanjutnya
           </button>
         </div>
-        
+
         <button
           onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
           disabled={currentPage === totalPages}
-          className={`flex items-center gap-2 px-4 py-2 text-gray-600 bg-white border border-gray-300 rounded-lg transition-colors hover:bg-gray-50 ${
-            currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
-          }`}
+          className="flex items-center gap-2 px-4 py-2 text-gray-600 bg-white border border-gray-300 rounded-lg transition-colors hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="9,18 15,12 9,6"></polyline>
