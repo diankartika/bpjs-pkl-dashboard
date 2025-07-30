@@ -73,7 +73,7 @@ export default function Home() {
   });
 
   try {
-    const res = await fetch('http://localhost:5050/api/participants', {
+    const res = await fetch('https://bpjs-pkl-dashboard-production-8d9a.up.railway.app/', {
       method: 'POST',
       body: form
     });
