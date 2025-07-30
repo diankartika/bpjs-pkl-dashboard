@@ -73,7 +73,7 @@ export default function Home() {
   });
 
   try {
-    const res = await fetch('https://bpjs-pkl-dashboard-production-8d9a.up.railway.app/', {
+    const res = await fetch('silky-cable-production.up.railway.app', {
       method: 'POST',
       body: form
     });
