@@ -73,7 +73,7 @@ export default function Home() {
   });
 
   try {
-    const res = await fetch('http://silky-cable-production.up.railway.app', {
+    const res = await fetch('https://silky-cable-production.up.railway.app/api/participants', {
       method: 'POST',
       body: form
     });

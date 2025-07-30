@@ -29,6 +29,10 @@ mongoose.connect(process.env.MONGODB_URI)
 // Routes
 app.use('/api/participants', participantRoutes);
 app.get('/ping', (req, res) => res.send('pong'));
+app.get('/', (req, res) => {
+  res.json({ message: 'Backend aktif di Railway!' });
+});
+
 
 // Server
 const PORT = process.env.PORT || 5050;

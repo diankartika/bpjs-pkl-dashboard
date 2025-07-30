@@ -12,7 +12,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('http://silky-cable-production.up.railway.app');
+        const res = await fetch('https://silky-cable-production.up.railway.app/api/participants');
         const data = await res.json();
         setParticipants(data);
       } catch (err) {
