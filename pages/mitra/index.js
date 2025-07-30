@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function DashboardMitra() {
   const [searchTerm, setSearchTerm] = useState('');
   const [participants, setParticipants] = useState([
   ]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchParticipants = async () => {
@@ -44,8 +46,13 @@ export default function DashboardMitra() {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-4xl font-bold text-gray-800">Dashboard Mitra</h1>
-        <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
-          <span>→</span>
+        <button
+          onClick={() => router.push('/')}
+          className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
           Keluar
         </button>
       </div>

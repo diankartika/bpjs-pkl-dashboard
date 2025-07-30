@@ -164,7 +164,7 @@ const paginatedData = filteredData.slice(
                       {item.email}
                     </a>
                   </td>
-                  <td className="px-6 py-4 text-gray-700 text-center">{item.jurusan}</td>
+                  <td className="px-6 py-4 text-gray-700 text-left">{item.jurusan}</td>
                 </tr>
               ))}
             </tbody>
